@@ -1,0 +1,11 @@
+source 'http://rubygems.org'
+
+# Use bundle install --without default to use native gems
+group :native do
+  gem 'json'
+  gem 'rest-client'
+end
+
+# Gems in the default group
+gem 'multi_json'
+gem 'rest_client'
