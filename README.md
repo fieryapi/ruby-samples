@@ -1,6 +1,6 @@
 ## ruby samples
 
-Fiery job management samples. Setup the bundler in `src` directory with either `bundle install` or `bundle install --without default`, modify `sample.rb` in the configuration section to connecto the Fiery then execute the script with `bundle exec ruby sample.rb`
+Fiery job management samples. Setup the bundler in `src` directory with either `bundle install` or `bundle install --without default`, modify `sample.rb` in the configuration section to connect to the Fiery then execute the script with `bundle exec ruby sample.rb`
 
 
 **Note** Always use secure connection (HTTPS) when connecting to Fiery API in production.
@@ -10,7 +10,7 @@ Fiery job management samples. Setup the bundler in `src` directory with either `
 ```ruby
 loginJson = {
   :username => $username,
-  :password => $password',
+  :password => $password,
   :accessrights => $api_key
 }
 
@@ -40,22 +40,22 @@ response = client['jobs'].get
 ### Get single job
 
 ```ruby
-job_id = "{{job id}}" # e.g. 00000000.558895DF.16055
-response = client["jobs/#{job_id}"].get
+$job_id = 'the_job_id' # e.g. 00000000.558895DF.16055
+response = client["jobs/#{$job_id}"].get
 ```
 
 
 ### Print a job
 
 ```ruby
-job_id = "{{job id}}" # e.g. 00000000.558895DF.16055
-response = client["jobs/#{job_id}/print"].put nil
+$job_id = 'the_job_id' # e.g. 00000000.558895DF.16055
+response = client["jobs/#{$job_id}/print"].put nil
 ```
 
 
 ### Get job preview
 
 ```ruby
-job_id = "{{job id}}" # e.g. 00000000.558895DF.16055
-response = client["jobs/#{job_id}/preview/1"].get
+$job_id = 'the_job_id' # e.g. 00000000.558895DF.16055
+response = client["jobs/#{$job_id}/preview/1"].get
 ```
