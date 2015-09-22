@@ -20,18 +20,20 @@ $hostname = 'the_server_name_or_ip_address'
 # set the key to access Fiery API
 $api_key = 'the_api_key'
 
-# set the username to login to the fiery
+# set the username to login to the fiery server
 $username = 'the_username'
 
-# set the password to login to the fiery
+# set the password to login to the fiery server
 $password = 'the_password'
 
-# set the job id on the fiery to retrieve job information and preview
+# set the job id on the fiery server to retrieve job information and preview
 $job_id = 'the_job_id'
 
+# set the full file path for job submission
+$full_path = 'the_job_content_full_file_path'
 
 ## *****************************************************************************
-## set the job id on the fiery to retrieve job information and preview
+## set the job id on the fiery server to retrieve job information and preview
 ## *****************************************************************************
 
 # get the first page preview of the job
@@ -44,7 +46,7 @@ def get_job_preview_sample(client)
   p uri
 end
 
-# get job information from all jobs on the fiery
+# get job information from all jobs on the fiery server
 def get_jobs_sample(client)
   response = client['jobs'].get
 
@@ -53,7 +55,7 @@ def get_jobs_sample(client)
   p response
 end
 
-# get job information of a single job on the fiery
+# get job information of a single job on the fiery server
 def get_single_job_sample(client)
   response = client["jobs/#{$job_id}"].get
 
@@ -62,9 +64,9 @@ def get_single_job_sample(client)
   p response
 end
 
-# login to the fiery
+# login to the fiery server
 def login_sample()
-  loginJson = {
+  login_json = {
     :username => $username,
     :password => $password,
     :accessrights => $api_key
@@ -72,7 +74,7 @@ def login_sample()
 
   client = RestClient::Resource.new "https://#{$hostname}/live/api/v2/", :headers => {}, :verify_ssl => OpenSSL::SSL::VERIFY_NONE
 
-  request = loginJson.to_json
+  request = login_json.to_json
   response = client['login'].post request, { :content_type => 'application/json' }
 
   client.options[:headers][:cookies] = response.cookies
@@ -83,7 +85,7 @@ def login_sample()
   client
 end
 
-# logout from the fiery
+# logout from the fiery server
 def logout_sample(client)
   response = client['logout'].post nil
 
@@ -94,7 +96,20 @@ def logout_sample(client)
   p response
 end
 
-# send a print action to a job on the fiery
+# create a new job on the fiery server
+def post_job_content_sample(client)
+  job_multipart = {
+    :file => File.new($full_path)
+  }
+  
+  response = client['jobs'].post job_multipart
+
+  p ''
+  p 'Submit a new job'
+  p response
+end
+
+# send a print action to a job on the fiery server
 def print_job_sample(client)
   response = client["jobs/#{$job_id}/print"].put nil
 
@@ -107,6 +122,7 @@ end
 # main method executing all sample code
 def main
   client = login_sample
+  post_job_content_sample client
   get_jobs_sample client
   get_single_job_sample client
   print_job_sample client
