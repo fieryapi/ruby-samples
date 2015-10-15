@@ -38,7 +38,7 @@ $full_path = 'the_job_content_full_file_path'  # e.g. d:\business_card.pdf
 job_multipart = {
   :file => File.new($full_path)
 }
-  
+
 response = client['jobs'].post job_multipart
 ```
 
@@ -55,6 +55,20 @@ response = client['jobs'].get
 ```ruby
 $job_id = 'the_job_id'  # e.g. 00000000.558895DF.16055
 response = client["jobs/#{$job_id}"].get
+```
+
+
+### Update attributes of a job
+
+```ruby
+$job_id = 'the_job_id'  # e.g. 00000000.558895DF.16055
+job_json = {
+  :attributes => {
+    'num copies' => 1
+  }
+}
+
+response = client["jobs/#{$job_id}"].put job_json
 ```
 
 

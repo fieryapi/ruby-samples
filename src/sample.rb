@@ -99,13 +99,28 @@ end
 # create a new job on the fiery server
 def post_job_content_sample(client)
   job_multipart = {
-    :file => File.new($full_path)
+    :file => File.new($full_path),
+    'num copies' => 10
   }
-  
+
   response = client['jobs'].post job_multipart
 
   p ''
   p 'Submit a new job'
+  p response
+end
+
+def update_job_attribute_sample(client)
+  job_json = {
+    :attributes => {
+      'num copies' => 1
+    }
+  }
+
+  response = client["jobs/#{$job_id}"].put job_json
+
+  p ''
+  p 'Update a job'
   p response
 end
 
@@ -125,6 +140,7 @@ def main
   post_job_content_sample client
   get_jobs_sample client
   get_single_job_sample client
+  update_job_attribute_sample client
   print_job_sample client
   get_job_preview_sample client
   logout_sample client
