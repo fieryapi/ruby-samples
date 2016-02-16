@@ -15,7 +15,7 @@ login_json = {
   :accessrights => $api_key
 }
 
-client = RestClient::Resource.new "https://#{$hostname}/live/api/v2/", :headers => {}, :verify_ssl => OpenSSL::SSL::VERIFY_NONE
+client = RestClient::Resource.new "https://#{$hostname}/live/api/v3/", :headers => {}, :verify_ssl => OpenSSL::SSL::VERIFY_NONE
 
 request = login_json.to_json
 response = client['login'].post request, { :content_type => 'application/json' }
